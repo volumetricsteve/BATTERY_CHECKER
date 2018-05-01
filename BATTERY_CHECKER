@@ -1,0 +1,10 @@
+BAT=/sys/class/power_supply/BAT0
+BAT_FULL=$(cat $BAT/energy_full)
+BAT_NOW=$(cat $BAT/energy_now)
+value=$(echo "scale=2; $BAT_NOW / $BAT_FULL" | bc -s)
+if [[ "$value" < ".15" ]]
+then
+echo -ne '\007'
+wall -n "WARNING! BATTERY LOW"
+echo -ne '\007'
+fi
